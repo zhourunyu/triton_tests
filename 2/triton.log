@@ -1,0 +1,100 @@
+I0617 07:00:55.811200 1 model_lifecycle.cc:473] "loading: lstm:1"
+I0617 07:01:02.317563 1 python_be.cc:2289] "TRITONBACKEND_ModelInstanceInitialize: lstm_0 (CPU device 0)"
+W0617 07:01:06.722845 1 pinned_memory_manager.cc:170] "failed to allocate pinned system memory: no pinned memory pool, falling back to non-pinned system memory"
+I0617 07:01:06.723793 1 model_lifecycle.cc:849] "successfully loaded 'lstm'"
+I0617 07:01:06.724147 1 server.cc:620] 
++------------------+------+
+| Repository Agent | Path |
++------------------+------+
++------------------+------+
+
+I0617 07:01:06.724219 1 server.cc:647] 
++---------+-------------------------------------------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| Backend | Path                                                  | Config                                                                                                                                                        |
++---------+-------------------------------------------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| python  | /opt/tritonserver/backends/python/libtriton_python.so | {"cmdline":{"auto-complete-config":"true","backend-directory":"/opt/tritonserver/backends","min-compute-capability":"0.000000","default-max-batch-size":"4"}} |
++---------+-------------------------------------------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------+
+
+I0617 07:01:06.724356 1 server.cc:690] 
++-------+---------+--------+
+| Model | Version | Status |
++-------+---------+--------+
+| lstm  | 1       | READY  |
++-------+---------+--------+
+
+I0617 07:01:06.724640 1 tritonserver.cc:2598] 
++----------------------------------+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| Option                           | Value                                                                                                                                                                                                     |
++----------------------------------+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| server_id                        | triton                                                                                                                                                                                                    |
+| server_version                   | 2.66.0                                                                                                                                                                                                    |
+| server_extensions                | classification sequence model_repository model_repository(unload_dependents) schedule_policy model_configuration system_shared_memory cuda_shared_memory binary_tensor_data parameters statistics logging |
+| model_repository_path[0]         | /triton_tests/2/models                                                                                                                                                                                    |
+| model_control_mode               | MODE_EXPLICIT                                                                                                                                                                                             |
+| startup_models_0                 | lstm                                                                                                                                                                                                      |
+| strict_model_config              | 0                                                                                                                                                                                                         |
+| model_config_name                |                                                                                                                                                                                                           |
+| rate_limit                       | OFF                                                                                                                                                                                                       |
+| pinned_memory_pool_byte_size     | 268435456                                                                                                                                                                                                 |
+| min_supported_compute_capability | 0.0                                                                                                                                                                                                       |
+| strict_readiness                 | 1                                                                                                                                                                                                         |
+| exit_timeout                     | 30                                                                                                                                                                                                        |
+| cache_enabled                    | 0                                                                                                                                                                                                         |
++----------------------------------+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+
+I0617 07:01:06.731065 1 grpc_server.cc:2562] "Started GRPCInferenceService at 0.0.0.0:8001"
+I0617 07:01:06.731704 1 http_server.cc:4823] "Started HTTPService at 0.0.0.0:8000"
+I0617 07:01:06.774246 1 http_server.cc:358] "Started Metrics Service at 0.0.0.0:8002"
+I0617 07:01:07.866049 1 model.py:21] "[lstm] received 1 requests"
+I0617 07:01:07.866318 1 model.py:33] "[lstm] processing corrid 1007, start: 1, end: 0"
+I0617 07:01:07.888123 1 model.py:21] "[lstm] received 4 requests"
+I0617 07:01:07.888445 1 model.py:33] "[lstm] processing corrid 0, start: 0, end: 0"
+I0617 07:01:07.896161 1 model.py:33] "[lstm] processing corrid 1001, start: 1, end: 0"
+I0617 07:01:07.903670 1 model.py:33] "[lstm] processing corrid 1004, start: 1, end: 0"
+I0617 07:01:07.910945 1 model.py:33] "[lstm] processing corrid 1002, start: 1, end: 0"
+I0617 07:01:07.917122 1 model.py:21] "[lstm] received 1 requests"
+I0617 07:01:07.917465 1 model.py:33] "[lstm] processing corrid 1007, start: 0, end: 0"
+I0617 07:01:07.928611 1 model.py:21] "[lstm] received 4 requests"
+I0617 07:01:07.928935 1 model.py:33] "[lstm] processing corrid 0, start: 0, end: 0"
+I0617 07:01:07.937808 1 model.py:33] "[lstm] processing corrid 1001, start: 0, end: 0"
+I0617 07:01:07.946053 1 model.py:33] "[lstm] processing corrid 1004, start: 0, end: 0"
+I0617 07:01:07.953560 1 model.py:33] "[lstm] processing corrid 1002, start: 0, end: 0"
+I0617 07:01:07.957077 1 model.py:21] "[lstm] received 1 requests"
+I0617 07:01:07.957510 1 model.py:33] "[lstm] processing corrid 1007, start: 0, end: 1"
+I0617 07:01:07.965146 1 model.py:21] "[lstm] received 4 requests"
+I0617 07:01:07.965463 1 model.py:33] "[lstm] processing corrid 1005, start: 1, end: 0"
+I0617 07:01:07.971337 1 model.py:33] "[lstm] processing corrid 1001, start: 0, end: 1"
+I0617 07:01:07.973898 1 model.py:33] "[lstm] processing corrid 1004, start: 0, end: 1"
+I0617 07:01:07.976374 1 model.py:33] "[lstm] processing corrid 1002, start: 0, end: 1"
+I0617 07:01:07.980100 1 model.py:21] "[lstm] received 4 requests"
+I0617 07:01:07.980414 1 model.py:33] "[lstm] processing corrid 0, start: 0, end: 0"
+I0617 07:01:07.986164 1 model.py:33] "[lstm] processing corrid 1003, start: 1, end: 0"
+I0617 07:01:07.988786 1 model.py:33] "[lstm] processing corrid 1006, start: 1, end: 0"
+I0617 07:01:07.991361 1 model.py:33] "[lstm] processing corrid 1009, start: 1, end: 0"
+I0617 07:01:07.994777 1 model.py:21] "[lstm] received 1 requests"
+I0617 07:01:07.995132 1 model.py:33] "[lstm] processing corrid 1005, start: 0, end: 0"
+I0617 07:01:08.001048 1 model.py:21] "[lstm] received 4 requests"
+I0617 07:01:08.001362 1 model.py:33] "[lstm] processing corrid 0, start: 0, end: 0"
+I0617 07:01:08.004117 1 model.py:33] "[lstm] processing corrid 1003, start: 0, end: 0"
+I0617 07:01:08.006672 1 model.py:33] "[lstm] processing corrid 1006, start: 0, end: 0"
+I0617 07:01:08.009067 1 model.py:33] "[lstm] processing corrid 1009, start: 0, end: 0"
+I0617 07:01:08.012527 1 model.py:21] "[lstm] received 1 requests"
+I0617 07:01:08.012825 1 model.py:33] "[lstm] processing corrid 1005, start: 0, end: 1"
+I0617 07:01:08.022055 1 model.py:21] "[lstm] received 4 requests"
+I0617 07:01:08.022454 1 model.py:33] "[lstm] processing corrid 1000, start: 1, end: 0"
+I0617 07:01:08.025325 1 model.py:33] "[lstm] processing corrid 1003, start: 0, end: 1"
+I0617 07:01:08.027865 1 model.py:33] "[lstm] processing corrid 1006, start: 0, end: 1"
+I0617 07:01:08.030281 1 model.py:33] "[lstm] processing corrid 1009, start: 0, end: 1"
+I0617 07:01:08.033721 1 model.py:21] "[lstm] received 2 requests"
+I0617 07:01:08.034057 1 model.py:33] "[lstm] processing corrid 0, start: 0, end: 0"
+I0617 07:01:08.039892 1 model.py:33] "[lstm] processing corrid 1008, start: 1, end: 0"
+I0617 07:01:08.043189 1 model.py:21] "[lstm] received 1 requests"
+I0617 07:01:08.043556 1 model.py:33] "[lstm] processing corrid 1000, start: 0, end: 0"
+I0617 07:01:08.047721 1 model.py:21] "[lstm] received 2 requests"
+I0617 07:01:08.048070 1 model.py:33] "[lstm] processing corrid 0, start: 0, end: 0"
+I0617 07:01:08.050884 1 model.py:33] "[lstm] processing corrid 1008, start: 0, end: 0"
+I0617 07:01:08.053964 1 model.py:21] "[lstm] received 1 requests"
+I0617 07:01:08.054294 1 model.py:33] "[lstm] processing corrid 1000, start: 0, end: 1"
+I0617 07:01:08.057542 1 model.py:21] "[lstm] received 2 requests"
+I0617 07:01:08.057873 1 model.py:33] "[lstm] processing corrid 0, start: 0, end: 0"
+I0617 07:01:08.060610 1 model.py:33] "[lstm] processing corrid 1008, start: 0, end: 1"

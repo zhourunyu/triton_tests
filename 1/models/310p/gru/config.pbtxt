@@ -1,0 +1,33 @@
+backend: "ascendcl"
+
+input [
+    {
+        name: "input"
+        data_type: TYPE_FP32
+        dims: [ 10, 1, 128 ]
+    },
+    {
+        name: "h0"
+        data_type: TYPE_FP32
+        dims: [ 4, 1, 256 ]
+    }
+]
+output [
+    {
+        name: "output"
+        data_type: TYPE_FP32
+        dims: [ 10, 1, 256 ]
+    },
+    {
+        name: "hn"
+        data_type: TYPE_FP32
+        dims: [ 4, 1, 256 ]
+    }
+]
+
+instance_group [
+    {
+        count: 1
+        kind: KIND_MODEL
+    }
+]

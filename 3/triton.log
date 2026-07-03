@@ -1,0 +1,58 @@
+I0430 07:23:06.644292 1 server.cc:620] 
++------------------+------+
+| Repository Agent | Path |
++------------------+------+
++------------------+------+
+
+I0430 07:23:06.644649 1 server.cc:647] 
++---------+------+--------+
+| Backend | Path | Config |
++---------+------+--------+
++---------+------+--------+
+
+I0430 07:23:06.644704 1 server.cc:690] 
++-------+---------+--------+
+| Model | Version | Status |
++-------+---------+--------+
++-------+---------+--------+
+
+I0430 07:23:06.644976 1 tritonserver.cc:2598] 
++----------------------------------+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| Option                           | Value                                                                                                                                                                                                     |
++----------------------------------+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| server_id                        | triton                                                                                                                                                                                                    |
+| server_version                   | 2.66.0                                                                                                                                                                                                    |
+| server_extensions                | classification sequence model_repository model_repository(unload_dependents) schedule_policy model_configuration system_shared_memory cuda_shared_memory binary_tensor_data parameters statistics logging |
+| model_repository_path[0]         | /triton_tests/3/models                                                                                                                                                                                    |
+| model_control_mode               | MODE_EXPLICIT                                                                                                                                                                                             |
+| strict_model_config              | 0                                                                                                                                                                                                         |
+| model_config_name                |                                                                                                                                                                                                           |
+| rate_limit                       | OFF                                                                                                                                                                                                       |
+| pinned_memory_pool_byte_size     | 268435456                                                                                                                                                                                                 |
+| min_supported_compute_capability | 0.0                                                                                                                                                                                                       |
+| strict_readiness                 | 1                                                                                                                                                                                                         |
+| exit_timeout                     | 30                                                                                                                                                                                                        |
+| cache_enabled                    | 0                                                                                                                                                                                                         |
++----------------------------------+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+
+I0430 07:23:06.650463 1 grpc_server.cc:2562] "Started GRPCInferenceService at 0.0.0.0:8001"
+I0430 07:23:06.651195 1 http_server.cc:4823] "Started HTTPService at 0.0.0.0:8000"
+I0430 07:23:06.693769 1 http_server.cc:358] "Started Metrics Service at 0.0.0.0:8002"
+I0430 07:23:08.428066 1 model_lifecycle.cc:473] "loading: resnet50:2"
+onnxruntime cpuid_info warning: Unknown CPU vendor. cpuinfo_vendor value: 0
+I0430 07:23:10.748249 1 python_be.cc:2289] "TRITONBACKEND_ModelInstanceInitialize: resnet50_0_0 (MODEL device 0)"
+onnxruntime cpuid_info warning: Unknown CPU vendor. cpuinfo_vendor value: 0
+I0430 07:23:12.194517 1 model.py:54] "[onnxrt] dynamic batch enabled with max batch size 16"
+I0430 07:23:12.198168 1 model_lifecycle.cc:849] "successfully loaded 'resnet50'"
+I0430 07:23:12.364675 1 model_lifecycle.cc:473] "loading: resnet50:1"
+I0430 07:23:12.364886 1 model_lifecycle.cc:473] "loading: resnet50:2"
+onnxruntime cpuid_info warning: Unknown CPU vendor. cpuinfo_vendor value: 0
+onnxruntime cpuid_info warning: Unknown CPU vendor. cpuinfo_vendor value: 0
+I0430 07:23:13.713437 1 model_lifecycle.cc:636] "successfully unloaded 'resnet50' version 2"
+I0430 07:23:14.400675 1 python_be.cc:2289] "TRITONBACKEND_ModelInstanceInitialize: resnet50_0_0 (MODEL device 0)"
+I0430 07:23:14.408286 1 python_be.cc:2289] "TRITONBACKEND_ModelInstanceInitialize: resnet50_0_0 (MODEL device 0)"
+onnxruntime cpuid_info warning: Unknown CPU vendor. cpuinfo_vendor value: 0
+onnxruntime cpuid_info warning: Unknown CPU vendor. cpuinfo_vendor value: 0
+I0430 07:23:15.870047 1 model.py:54] "[onnxrt] dynamic batch enabled with max batch size 16"
+I0430 07:23:15.900794 1 model.py:54] "[onnxrt] dynamic batch enabled with max batch size 16"
+I0430 07:23:15.904556 1 model_lifecycle.cc:849] "successfully loaded 'resnet50'"

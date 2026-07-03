@@ -1,0 +1,79 @@
+volumes:
+  - name: weight
+    hostPath:
+      path: /root/weight
+  - name: shm
+    emptyDir:
+      medium: Memory
+      sizeLimit: 1Gi
+
+volumeMounts:
+  - mountPath: /weight
+    name: weight
+  - mountPath: /dev/shm
+    name: shm
+
+instances:
+  ascend:
+    weight: 1
+    autoscaling:
+      enabled: true
+      minReplicas: 1
+      maxReplicas: 2
+    resources:
+      limits:
+        huawei.com/Ascend310P: 1
+    image: zhourunyu/triton_ascend_310p:260326
+    runtimeClass: ascend
+    # modelRepository: /root/triton_tests/5/models/310p
+    modelRepository: /root/310p/models
+    serverArgs:
+    - '--model-repository=/models'
+
+traefik:
+  logs:
+    access:
+      enabled: true
+  ports:
+    web:
+      expose: false
+    websecure:
+      expose: false
+    triton-http:
+      port: 18000
+      exposedPort: 8000
+      expose: true
+      protocol: TCP
+    triton-grpc:
+      port: 18001
+      exposedPort: 8001
+      expose: true
+      protocol: TCP
+
+autoscaling:
+  metrics:
+    - type: Pods
+      pods:
+        metric:
+          name: npu_utilization
+        target:
+          type: AverageValue
+          averageValue: 80
+
+prometheus-adapter:
+  prometheus:
+    url: http://triton-metrics-kube-promet-prometheus.default.svc.cluster.local
+    port: 9090
+  rules:
+    custom:
+      - seriesQuery: 'npu_chip_info_utilization{exported_namespace!="", pod_name!=""}'
+        resources:
+          overrides:
+            exported_namespace:
+              resource: "namespace"
+            pod_name:
+              resource: "pod"
+        name:
+          matches: "^npu_chip_info_utilization$"
+          as: "npu_utilization"
+        metricsQuery: 'avg(<<.Series>>{<<.LabelMatchers>>}) by (<<.GroupBy>>)'
