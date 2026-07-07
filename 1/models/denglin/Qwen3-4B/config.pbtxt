@@ -1,0 +1,11 @@
+# Note: You do not need to change any fields in this configuration.
+
+backend: "vllm"
+
+# The usage of device is deferred to the MindIE engine
+instance_group [
+  {
+    count: 1
+    kind: KIND_MODEL
+  }
+]

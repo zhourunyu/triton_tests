@@ -1,0 +1,6 @@
+{
+    "model": "/weight/Qwen3-4B-W8A8",
+    "max_model_len": 4096,
+    "gpu_memory_utilization": 0.8,
+    "swap_space": 2
+}
