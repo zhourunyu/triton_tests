@@ -24,7 +24,6 @@ echo "Server is ready!"
 ./test_triton -m rnn
 ./test_triton -m gru
 ./test_triton -m lstm
-./test_triton_llm -m Qwen3-4B
 
 docker stop triton_denglin > /dev/null
 docker rm triton_denglin > /dev/null

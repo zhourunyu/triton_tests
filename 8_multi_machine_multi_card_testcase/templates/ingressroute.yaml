@@ -1,0 +1,67 @@
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: {{ .Release.Name }}-triton-ingress-http
+  namespace: {{ .Release.Namespace }}
+  labels:
+    app: triton
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
+spec:
+  entryPoints:
+    - triton-http
+  routes:
+    {{- range $name, $config := .Values.instances }}
+    {{- if gt $config.autoscaling.minReplicas 0.0 }}
+    - match: PathPrefix(`/`) && Headers(`x-triton-backend`, `{{ $name }}`)
+      kind: Rule
+      services:
+        - name: {{ $.Release.Name }}-triton-{{ $name }}
+          port: 8000
+    {{- end }}
+    {{- end }}
+    - match: PathPrefix(`/`)
+      kind: Rule
+      services:
+        {{- range $name, $config := .Values.instances }}
+        {{- if gt $config.autoscaling.minReplicas 0.0 }}
+        - name: {{ $.Release.Name }}-triton-{{ $name }}
+          port: 8000
+          weight: {{ $config.weight }}
+        {{- end }}
+        {{- end }}
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: {{ .Release.Name }}-triton-ingress-grpc
+  namespace: {{ .Release.Namespace }}
+  labels:
+    app: triton
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
+spec:
+  entryPoints:
+    - triton-grpc
+  routes:
+    {{- range $name, $config := .Values.instances }}
+    {{- if gt $config.autoscaling.minReplicas 0.0 }}
+    - match: PathPrefix(`/`) && Headers(`x-triton-backend`, `{{ $name }}`)
+      kind: Rule
+      services:
+        - name: {{ $.Release.Name }}-triton-{{ $name }}
+          port: 8001
+          scheme: h2c
+    {{- end }}
+    {{- end }}
+    - match: PathPrefix(`/`)
+      kind: Rule
+      services:
+        {{- range $name, $config := .Values.instances }}
+        {{- if gt $config.autoscaling.minReplicas 0.0 }}
+        - name: {{ $.Release.Name }}-triton-{{ $name }}
+          port: 8001
+          scheme: h2c
+          weight: {{ $config.weight }}
+        {{- end }}
+        {{- end }}

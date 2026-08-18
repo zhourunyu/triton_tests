@@ -18,10 +18,10 @@ echo "Server is ready!"
 
 python3 test_1.py
 
-curl -s http://localhost:8002/metrics > metrics.txt
-echo "Server metrics has been saved to metrics.txt"
+curl -s http://localhost:8002/metrics > metrics_run_1.txt
+echo "Server metrics has been saved to metrics_run_1.txt"
 
-docker logs triton_cpu &> triton.log
-echo "Server logs has been saved to triton.log"
+docker logs triton_cpu &> triton_run_1.log
+echo "Server logs has been saved to triton_run_1.log"
 docker stop triton_cpu > /dev/null
 docker rm triton_cpu > /dev/null

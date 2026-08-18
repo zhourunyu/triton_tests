@@ -20,7 +20,8 @@ echo "Server is ready!"
 
 python3 test_2.py
 
-docker logs triton_ascend_310p | grep batchscheduler &> triton.log
-echo "Server logs has been saved to triton.log"
+docker logs triton_ascend_310p | grep batchscheduler &> triton_run_2_grep_batchscheduler.log
+docker logs triton_ascend_310p &> triton_run_2_full.log
+echo "Server logs has been saved to triton_run_2_grep_batchscheduler.log and triton_run_2_full.log"
 docker stop triton_ascend_310p > /dev/null
 docker rm triton_ascend_310p > /dev/null

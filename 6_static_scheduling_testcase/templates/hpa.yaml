@@ -1,0 +1,23 @@
+{{- range $name, $config := .Values.instances }}
+{{- if $config.autoscaling.enabled }}
+---
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: {{ $.Release.Name }}-triton-hpa-{{ $name }}
+  namespace: {{ $.Release.Namespace }}
+  labels:
+    app: triton
+    release: {{ $.Release.Name }}
+    heritage: {{ $.Release.Service }}
+    instance-group: {{ $name }}
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: {{ $.Release.Name }}-triton-{{ $name }}
+  minReplicas: {{ $config.autoscaling.minReplicas }}
+  maxReplicas: {{ $config.autoscaling.maxReplicas }}
+  metrics: {{ toYaml $.Values.autoscaling.metrics | nindent 2}}
+{{- end -}}
+{{- end -}}

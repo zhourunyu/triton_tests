@@ -1,0 +1,9 @@
+dependencies:
+- name: traefik
+  repository: https://helm.traefik.io/traefik
+  version: 10.6.2
+- name: prometheus-adapter
+  repository: https://prometheus-community.github.io/helm-charts
+  version: 3.0.3
+digest: sha256:f2d4d4c1d139027c64d415bc9b300acedfaf5586b6283697d4c65973d8f6b7c2
+generated: "2026-04-09T08:03:13.122641604Z"

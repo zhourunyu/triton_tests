@@ -1,0 +1,99 @@
+volumes:
+  - name: weight
+    hostPath:
+      path: /root/weight
+  - name: shm
+    emptyDir:
+      medium: Memory
+      sizeLimit: 1Gi
+
+volumeMounts:
+  - mountPath: /weight
+    name: weight
+  - mountPath: /dev/shm
+    name: shm
+
+instances:
+  ascend:
+    weight: 2
+    autoscaling:
+      enabled: false
+      minReplicas: 1
+      maxReplicas: 1
+    resources:
+      limits:
+        huawei.com/Ascend310P: 1
+    image: zhourunyu/triton_ascend_310p:260326
+    runtimeClass: ascend
+    modelRepository: /root/triton_tests
+    serverArgs:
+    - '--model-repository=/models/1/models/310p/'
+    - '--model-control-mode=explicit'
+    - '--load-model=resnet50'
+
+  iluvatar:
+    weight: 1
+    autoscaling:
+      enabled: false
+      minReplicas: 1
+      maxReplicas: 1
+    resources:
+      limits:
+        iluvatar.com/gpu: 1
+    image: zhourunyu/triton_corex:260326
+    modelRepository: /root/triton_tests
+    serverArgs:
+    - '--model-repository=/models/1/models/zhikai/'
+    - '--model-control-mode=explicit'
+    - '--load-model=resnet50'
+    env:
+    - name: VLLM_ENFORCE_CUDA_GRAPH
+      value: "1"
+
+traefik:
+  logs:
+    access:
+      enabled: true
+  ports:
+    web:
+      expose: false
+    websecure:
+      expose: false
+    triton-http:
+      port: 18000
+      exposedPort: 8000
+      expose: true
+      protocol: TCP
+    triton-grpc:
+      port: 18001
+      exposedPort: 8001
+      expose: true
+      protocol: TCP
+
+autoscaling:
+  metrics:
+    - type: Pods
+      pods:
+        metric:
+          name: avg_time_queue_us
+        target:
+          type: AverageValue
+          averageValue: 50
+
+prometheus-adapter:
+  prometheus:
+    url: http://triton-metrics-kube-promet-prometheus.default.svc.cluster.local
+    port: 9090
+  rules:
+    custom:
+      - seriesQuery: 'nv_inference_queue_duration_us{namespace="default",pod!=""}'
+        resources:
+          overrides:
+            namespace:
+              resource: "namespace"
+            pod:
+              resource: "pod"
+        name:
+          matches: "nv_inference_queue_duration_us"
+          as: "avg_time_queue_us"
+        metricsQuery: 'avg(delta(nv_inference_queue_duration_us{<<.LabelMatchers>>}[30s])/(1+delta(nv_inference_request_success{<<.LabelMatchers>>}[30s]))) by (<<.GroupBy>>)'

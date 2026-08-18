@@ -1,0 +1,91 @@
+{{- range $name, $config := .Values.instances }}
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ $.Release.Name }}-triton-{{ $name }}
+  namespace: {{ $.Release.Namespace }}
+  labels:
+    app: triton
+    release: {{ $.Release.Name }}
+    heritage: {{ $.Release.Service }}
+    instance-group: {{ $name }}
+spec:
+  replicas: {{ $config.autoscaling.minReplicas }}
+  selector:
+    matchLabels:
+      app: triton
+      release: {{ $.Release.Name }}
+      instance-group: {{ $name }}
+  template:
+    metadata:
+      labels:
+        app: triton
+        release: {{ $.Release.Name }}
+        instance-group: {{ $name }}
+
+    spec:
+      {{- if $config.runtimeClass }}
+      runtimeClassName: {{ $config.runtimeClass }}
+      {{- end }}
+      volumes:
+        {{- if $.Values.volumes }}
+        {{- toYaml $.Values.volumes | nindent 8 }}
+        {{- end }}
+        - name: models
+          hostPath:
+            path: {{ $config.modelRepository }}
+      containers:
+        - name: tritonserver
+          image: "{{ $config.image }}"
+          imagePullPolicy: IfNotPresent
+          volumeMounts:
+          {{- if $.Values.volumeMounts }}
+          {{- toYaml $.Values.volumeMounts | nindent 12 }}
+          {{- end }}
+            - mountPath: /models
+              name: models
+
+          resources:
+            {{- toYaml $config.resources | nindent 12 }}
+
+          command: ["/opt/tritonserver/bin/tritonserver"]
+
+          args:
+            {{- range $config.serverArgs }}
+            - {{ . }}
+            {{- end }}
+
+          {{- if $config.env }}
+          env:
+            {{- toYaml $config.env | nindent 12 }}
+          {{- end }}
+
+          ports:
+            - containerPort: 8000
+              name: http
+            - containerPort: 8001
+              name: grpc
+            - containerPort: 8002
+              name: metrics
+          livenessProbe:
+            initialDelaySeconds: 15
+            failureThreshold: 3
+            periodSeconds: 10
+            httpGet:
+              path: /v2/health/live
+              port: http
+          readinessProbe:
+            initialDelaySeconds: 5
+            periodSeconds: 5
+            failureThreshold: 3
+            httpGet:
+              path: /v2/health/ready
+              port: http
+          startupProbe:
+            periodSeconds: 10
+            failureThreshold: 30
+            httpGet:
+              path: /v2/health/ready
+              port: http
+{{- end }}
