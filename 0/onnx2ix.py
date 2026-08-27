@@ -24,11 +24,11 @@ def main(
 
     atc_args = [
         "ixrtexec",
-        f"--onnx {input_file}",
-        f"--save_engine {output_file}",
-        f"--min_shape {','.join(min_shapes)}",
-        f"--opt_shape {','.join(opt_shapes)}",
-        f"--max_shape {','.join(max_shapes)}",
+        "--onnx", input_file,
+        "--save_engine", output_file,
+        "--min_shape", ','.join(min_shapes),
+        "--opt_shape", ','.join(opt_shapes),
+        "--max_shape", ','.join(max_shapes),
     ]
     print("Running command:", " ".join(atc_args))
     subprocess.run(atc_args, check=True)

@@ -18,7 +18,7 @@ echo "Server is ready!"
 
 python3 test_2.py
 
-docker logs triton_cpu &> triton.log
-echo "Server logs has been saved to triton.log"
+docker logs triton_cpu &> triton_run_2.log
+echo "Server logs has been saved to triton_run_2.log"
 docker stop triton_cpu > /dev/null
 docker rm triton_cpu > /dev/null

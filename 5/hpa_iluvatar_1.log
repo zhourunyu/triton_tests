@@ -1,0 +1,31 @@
+Name:                           triton-triton-hpa-iluvatar
+Namespace:                      default
+Labels:                         app=triton
+                                app.kubernetes.io/managed-by=Helm
+                                heritage=Helm
+                                instance-group=iluvatar
+                                release=triton
+Annotations:                    meta.helm.sh/release-name: triton
+                                meta.helm.sh/release-namespace: default
+CreationTimestamp:              Mon, 24 Aug 2026 09:55:36 +0000
+Reference:                      Deployment/triton-triton-iluvatar
+Metrics:                        ( current / target )
+  "avg_time_queue_us" on pods:  0 / 50
+Min replicas:                   1
+Max replicas:                   2
+Deployment pods:                1 current / 1 desired
+Conditions:
+  Type            Status  Reason               Message
+  ----            ------  ------               -------
+  AbleToScale     True    ScaleDownStabilized  recent recommendations were higher than current one, applying the highest recent recommendation
+  ScalingActive   True    ValidMetricFound     the HPA was able to successfully calculate a replica count from pods metric avg_time_queue_us
+  ScalingLimited  False   DesiredWithinRange   the desired count is within the acceptable range
+Events:
+  Type     Reason                        Age                   From                       Message
+  ----     ------                        ----                  ----                       -------
+  Warning  FailedGetPodsMetric           3m53s (x2 over 4m8s)  horizontal-pod-autoscaler  unable to get metric avg_time_queue_us: unable to fetch metrics from custom metrics API: no known available metric versions found
+  Warning  FailedComputeMetricsReplicas  3m53s (x2 over 4m8s)  horizontal-pod-autoscaler  invalid metrics (1 invalid out of 1), first error is: failed to get pods metric value: unable to get metric avg_time_queue_us: unable to fetch metrics from custom metrics API: no known available metric versions found
+  Warning  FailedGetPodsMetric           95s (x9 over 3m37s)   horizontal-pod-autoscaler  unable to get metric avg_time_queue_us: no metrics returned from custom metrics API
+  Warning  FailedComputeMetricsReplicas  95s (x9 over 3m37s)   horizontal-pod-autoscaler  invalid metrics (1 invalid out of 1), first error is: failed to get pods metric value: unable to get metric avg_time_queue_us: no metrics returned from custom metrics API
+  Warning  FailedComputeMetricsReplicas  80s                   horizontal-pod-autoscaler  invalid metrics (1 invalid out of 1), first error is: failed to get pods metric value: unable to get metric avg_time_queue_us: unable to fetch metrics from custom metrics API: the server could not find the metric avg_time_queue_us for pods
+  Warning  FailedGetPodsMetric           64s (x2 over 80s)     horizontal-pod-autoscaler  unable to get metric avg_time_queue_us: unable to fetch metrics from custom metrics API: the server could not find the metric avg_time_queue_us for pods

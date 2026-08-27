@@ -14,21 +14,25 @@ volumeMounts:
     name: shm
 
 instances:
-  ascend:
-    weight: 1
+  iluvatar:
+    weight: 10
     autoscaling:
       enabled: true
       minReplicas: 1
       maxReplicas: 2
     resources:
       limits:
-        huawei.com/Ascend310P: 1
-    image: zhourunyu/triton_ascend_310p:260326
-    runtimeClass: ascend
-    # modelRepository: /root/triton_tests/5/models/310p
-    modelRepository: /root/310p/models
+        iluvatar.com/gpu: 1
+    image: zhourunyu/triton_corex:260326
+    # modelRepository: /root/zhikai/models
+    modelRepository: /root/triton_tests
     serverArgs:
-    - '--model-repository=/models'
+    - '--model-repository=/models/1/models/zhikai/'
+    - '--model-control-mode=explicit'
+    - '--load-model=resnet50'
+    env:
+    - name: VLLM_ENFORCE_CUDA_GRAPH
+      value: "1"
 
 traefik:
   logs:
@@ -55,10 +59,10 @@ autoscaling:
     - type: Pods
       pods:
         metric:
-          name: npu_utilization
+          name: avg_time_queue_us
         target:
           type: AverageValue
-          averageValue: 80
+          averageValue: 50
 
 prometheus-adapter:
   prometheus:
@@ -66,14 +70,14 @@ prometheus-adapter:
     port: 9090
   rules:
     custom:
-      - seriesQuery: 'npu_chip_info_utilization{exported_namespace!="", pod_name!=""}'
+      - seriesQuery: 'nv_inference_queue_duration_us{namespace="default",pod!=""}'
         resources:
           overrides:
-            exported_namespace:
+            namespace:
               resource: "namespace"
-            pod_name:
+            pod:
               resource: "pod"
         name:
-          matches: "^npu_chip_info_utilization$"
-          as: "npu_utilization"
-        metricsQuery: 'avg(<<.Series>>{<<.LabelMatchers>>}) by (<<.GroupBy>>)'
+          matches: "nv_inference_queue_duration_us"
+          as: "avg_time_queue_us"
+        metricsQuery: 'avg(delta(nv_inference_queue_duration_us{<<.LabelMatchers>>}[30s])/(1+delta(nv_inference_request_success{<<.LabelMatchers>>}[30s]))) by (<<.GroupBy>>)'

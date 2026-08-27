@@ -1,0 +1,71 @@
+{{- range $name, $config := .Values.instances }}
+{{- if gt $config.autoscaling.minReplicas 0.0 }}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ $.Release.Name }}-triton-{{ $name }}
+  namespace: {{ $.Release.Namespace }}
+  labels:
+    app: triton
+    release: {{ $.Release.Name }}
+    heritage: {{ $.Release.Service }}
+    instance-group: {{ $name }}
+spec:
+  clusterIP: None
+  ports:
+    - port: 8000
+      targetPort: http
+      name: http
+    - port: 8001
+      targetPort: grpc
+      name: grpc
+    - port: 8002
+      targetPort: metrics
+      name: metrics
+  selector:
+    app: triton
+    release: {{ $.Release.Name }}
+    instance-group: {{ $name }}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ $.Release.Name }}-triton-metrics-{{ $name }}
+  namespace: {{ $.Release.Namespace }}
+  labels:
+    app: triton-metrics
+    release: {{ $.Release.Name }}
+    heritage: {{ $.Release.Service }}
+    instance-group: {{ $name }}
+  annotations:
+    alpha.monitoring.coreos.com/non-namespaced: "true"
+spec:
+  ports:
+  - name: metrics
+    port: 8080
+    targetPort: metrics
+    protocol: TCP
+  selector:
+    app: triton
+    release: {{ $.Release.Name }}
+    instance-group: {{ $name }}
+---
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: {{ $.Release.Name }}-triton-metrics-monitor-{{ $name }}
+  namespace: {{ $.Release.Namespace }}
+  labels:
+    app: triton-metrics-monitor
+    release: {{ $.Release.Name }}
+    heritage: {{ $.Release.Service }}
+spec:
+  selector:
+    matchLabels:
+      app: triton-metrics
+  endpoints:
+  - port: metrics
+    interval: 15s
+{{- end }}
+{{- end }}
