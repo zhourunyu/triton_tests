@@ -1,0 +1,9 @@
+{
+    "model": "/weight/Qwen3-4B-W8A8",
+    "max_model_len": 4096,
+    "gpu_memory_utilization": 0.8,
+    "tensor_parallel_size": 1,
+    "pipeline_parallel_size": 2,
+    "distributed_executor_backend": "ray",
+    "swap_space": 2
+}
