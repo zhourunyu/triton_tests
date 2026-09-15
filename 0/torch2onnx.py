@@ -32,7 +32,7 @@ def main(
     model_name: str = typer.Option(..., "-m", help="Model name"),
     input_file: str = typer.Option(..., "-i", help="Input file path"),
     output_file: str = typer.Option(..., "-o", help="Output file path"),
-    verify: bool = typer.Option(False, help="Verify the exported ONNX model")
+    verify: bool = typer.Option(True, help="Verify the exported ONNX model")
 ):
     model = get_model(model_name)
     model.load_state_dict(torch.load(input_file))
@@ -50,7 +50,7 @@ def main(
         output_names=output_names,
         dynamic_axes=dynamic_axes,
     )
-    print(f"Model exported to {output_file}")
+    print(f"Model exported to {output_file}.")
 
     if verify:
         import onnx
@@ -62,7 +62,7 @@ def main(
 
         # Run inference with ONNX Runtime
         ort_session = ort.InferenceSession(output_file)
-        ort_inputs = {input_names[0]: inputs[0].numpy()}
+        ort_inputs = {name: input.numpy() for name, input in zip(input_names, inputs)}
         ort_outputs = ort_session.run(output_names, ort_inputs)
 
         # Run inference with PyTorch
