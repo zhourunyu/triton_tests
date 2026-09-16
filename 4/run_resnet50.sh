@@ -10,7 +10,7 @@ docker run -d --name triton_ascend_310p \
     -v `pwd`/..:/triton_tests:ro \
     -v /root/weight:/weight:ro \
     --entrypoint /opt/tritonserver/bin/tritonserver \
-    zhourunyu/triton_ascend_310p:260326 --model-repository=/triton_tests/4/models --model-control-mode=explicit --load-model=resnet50 > /dev/null
+    zhourunyu/triton_ascend_310p:260326 --model-repository=/triton_tests/4/models/310p --model-control-mode=explicit --load-model=resnet50 > /dev/null
 
 while ! curl -s http://localhost:8000/v2/health/ready > /dev/null; do
     sleep 1
@@ -18,7 +18,6 @@ done
 echo "Server is ready!"
 
 ./test_triton -m resnet50
-# ./test_triton_llm -m Qwen3-4B
 
 python3 ./test_1.py
 

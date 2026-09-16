@@ -28,6 +28,7 @@ if __name__ == "__main__":
     config.max_batch_size = 4
 
     t = Thread(target=infer)
+    print(f"Start to repeatedly send inference requests to the model {model}...")
     t.start()
 
     new_config_txt = text_format.MessageToString(config)
@@ -43,7 +44,17 @@ if __name__ == "__main__":
         time.sleep(1)
 
     t.join()
+    print(f"All inference requests completed successfully!")
 
     with open(f"models/{model}/config.pbtxt", "w") as f:
         f.write(config_txt)
+
+    print("=" * 50)
     print(f"Config restored to original state.")
+    print(f"Waiting for the server to update the model config...")
+    while True:
+        if config := client.get_model_config(model, as_json=True):
+            if config["config"]["max_batch_size"] == 16:
+                print(f"Config updated successfully! Current max batch size: {config['config']['max_batch_size']}")
+                break
+        time.sleep(1)
