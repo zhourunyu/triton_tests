@@ -2,6 +2,7 @@
     "model": "/weight/Qwen3-4B-W8A8",
     "max_model_len": 4096,
     "gpu_memory_utilization": 0.8,
+    "compilation_config": {"cudagraph_mode": "FULL_DECODE_ONLY", "mode": 0},
     "swap_space": 2,
     "tensor_parallel_size": 2
 }

@@ -5,5 +5,6 @@
     "tensor_parallel_size": 1,
     "pipeline_parallel_size": 2,
     "distributed_executor_backend": "ray",
+    "compilation_config": {"cudagraph_mode": "FULL_DECODE_ONLY", "mode": 0},
     "swap_space": 2
 }
