@@ -11,7 +11,7 @@ docker run -d --name triton_ascend_310b \
     --device /dev/hisi_hdc \
     -v `pwd`/..:/triton_tests:ro \
     --entrypoint /opt/tritonserver/bin/tritonserver \
-    zhourunyu/triton_ascend_310p:260326 --model-repository=/triton_tests/1/models/310b > /dev/null
+    zhourunyu/triton_ascend_310b:260921 --model-repository=/triton_tests/1/models/310b > /dev/null
 
 while ! curl -s http://localhost:8000/v2/health/ready > /dev/null; do
     sleep 1
