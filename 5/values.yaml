@@ -23,7 +23,7 @@ instances:
     resources:
       limits:
         iluvatar.com/gpu: 1
-    image: zhourunyu/triton_corex:260326
+    image: zhourunyu/triton_corex:260921
     # modelRepository: /root/zhikai/models
     modelRepository: /root/triton_tests
     serverArgs:

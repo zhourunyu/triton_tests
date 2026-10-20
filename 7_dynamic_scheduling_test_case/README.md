@@ -99,7 +99,7 @@ instances:
     resources:        # 单个副本的资源请求和限制
       limits:
         iluvatar.com/gpu: 1
-    image: zhourunyu/triton_corex:260326  # Triton镜像
+    image: zhourunyu/triton_corex:260921  # Triton镜像
     modelRepository: /root/zhikai/models  # 模型存储路径
     serverArgs:
     - '--model-repository=/models'        # Triton启动参数

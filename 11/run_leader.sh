@@ -11,7 +11,7 @@ docker run -d --name triton_corex \
     -v `pwd`/..:/triton_tests:ro \
     -v /root/weight:/weight:ro \
     --entrypoint /usr/local/bin/ray \
-    zhourunyu/triton_corex:260326 start --head --port 6379 --num-gpus 1 --block --disable-usage-stats > /dev/null
+    zhourunyu/triton_corex:260921 start --head --port 6379 --num-gpus 1 --block --disable-usage-stats > /dev/null
 
 while [ $(docker exec triton_corex python3 -c 'import ray; ray.init(); print(sum(node["Alive"] for node in ray.nodes()))') -lt 2 ]; do
     sleep 1

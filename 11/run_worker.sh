@@ -9,4 +9,4 @@ docker run -d --name triton_corex \
     --runtime iluvatar -e IX_VISIBLE_DEVICES=0 \
     -v /root/weight:/weight:ro \
     --entrypoint /usr/local/bin/ray \
-    zhourunyu/triton_corex:260326 start --address 192.168.10.218:6379 --num-gpus 1 --block --disable-usage-stats > /dev/null
+    zhourunyu/triton_corex:260921 start --address 192.168.10.218:6379 --num-gpus 1 --block --disable-usage-stats > /dev/null

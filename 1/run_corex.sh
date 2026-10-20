@@ -10,7 +10,7 @@ docker run -d --name triton_corex \
     -v `pwd`/..:/triton_tests:ro \
     -v /root/weight:/weight:ro \
     --entrypoint /opt/tritonserver/bin/tritonserver \
-    zhourunyu/triton_corex:260326 --model-repository=/triton_tests/1/models/zhikai > /dev/null
+    zhourunyu/triton_corex:260921 --model-repository=/triton_tests/1/models/zhikai > /dev/null
 
 while ! curl -s http://localhost:8000/v2/health/ready > /dev/null; do
     sleep 1
