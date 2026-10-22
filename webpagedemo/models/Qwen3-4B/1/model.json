@@ -1,0 +1,13 @@
+{
+    "model": "/weight/Qwen3-4B-W8A8-Ascend",
+    "dtype": "float16",
+    "max_model_len": 4096,
+    "max_num_seqs": 32,
+    "compilation_config": {
+        "cudagraph_mode": "FULL_DECODE_ONLY",
+        "cudagraph_capture_sizes": [1,2,4,8,16]
+    },
+    "additional_config": {
+        "ascend_compilation_config": {"enable_npugraph_ex": false}
+    }
+}
