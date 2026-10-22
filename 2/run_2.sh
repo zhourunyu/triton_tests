@@ -2,6 +2,7 @@
 
 echo "Running Triton Inference Server on Ascend 310P..."
 
+chmod 640 models/Qwen3-4B/1/model.json
 docker run -d --name triton_ascend_310p \
     -p 8000:8000 \
     -p 8001:8001 \

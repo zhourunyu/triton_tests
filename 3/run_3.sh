@@ -9,7 +9,7 @@ docker run -d --name triton_cpu \
     --shm-size 1g \
     -v `pwd`/..:/triton_tests:ro \
     --entrypoint /opt/tritonserver/bin/tritonserver \
-    zhourunyu/triton_cpu:260429 --model-repository=/triton_tests/3/models > /dev/null
+    zhourunyu/triton_cpu:260921 --model-repository=/triton_tests/3/models > /dev/null
 
 while ! curl -s http://localhost:8000/v2/health/ready > /dev/null; do
     sleep 1
