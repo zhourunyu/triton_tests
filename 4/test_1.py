@@ -1,7 +1,7 @@
 from tritonclient.http import InferenceServerClient, InferInput, InferRequestedOutput
 import numpy as np
 
-num_requests = 20
+num_requests = 60
 model = "resnet50"
 url = "localhost:8000"
 
