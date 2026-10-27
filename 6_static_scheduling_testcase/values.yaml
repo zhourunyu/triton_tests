@@ -46,9 +46,6 @@ instances:
     - '--model-repository=/models/1/models/zhikai/'
     - '--model-control-mode=explicit'
     - '--load-model=resnet50'
-    env:
-    - name: VLLM_ENFORCE_CUDA_GRAPH
-      value: "1"
 
 traefik:
   logs:

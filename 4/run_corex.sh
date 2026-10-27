@@ -7,6 +7,7 @@ docker run -d --name triton_corex \
     -p 8001:8001 \
     --shm-size 1g \
     --runtime iluvatar -e IX_VISIBLE_DEVICES=0,1 \
+    -e VLLM_ENFORCE_CUDA_GRAPH=0 \
     -v `pwd`/..:/triton_tests:ro \
     -v /root/weight:/weight:ro \
     --entrypoint /opt/tritonserver/bin/tritonserver \

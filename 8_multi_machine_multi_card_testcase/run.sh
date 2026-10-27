@@ -4,12 +4,12 @@ echo "Running Triton Inference Server with Kubernetes..."
 
 helm install triton .
 
-while ! curl -fsS http://localhost:8000/v2/health/ready > /dev/null; do
+kubectl wait --for=condition=available deployment/triton-triton-ascend --timeout=300s
+kubectl wait --for=condition=available deployment/triton-traefik --timeout=120s
+
+while ! curl -s http://localhost:8000/v2/health/ready > /dev/null; do
     sleep 1
 done
-
-sleep 10
-
 echo "Server is ready!"
 
 python test_2.py
